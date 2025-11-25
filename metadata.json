@@ -1,0 +1,5 @@
+{
+  "name": "AlgoGuardian",
+  "description": "A SaaS application for algorithmic traders to monitor their trading strategies by detecting statistical 'drift' between back-tested performance and real-time results, providing AI-driven analysis and recommendations.",
+  "requestFramePermissions": []
+}

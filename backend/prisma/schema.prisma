@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(cuid())
+  email     String      @unique
+  password  String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  portfolios Portfolio[]
+
+  // SaaS Fields
+  plan                   String    @default("free") // 'free', 'premium', 'pro'
+  subscription_status    String    @default("active") // 'active', 'trialing'
+  trial_ends_at          DateTime?
+  newsletter_subscribed  Boolean   @default(true)
+  mailerlite_subscriber_id String?
+  isPotentialLead        Boolean   @default(false)
+
+  // Payment Fields (Mock/Stripe)
+  cardLast4              String?
+  cardBrand              String?
+  stripeCustomerId       String?
+}
+
+model Portfolio {
+  id          String     @id @default(cuid())
+  name        String
+  metricRules Json       @default("[]")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  ownerId     String
+  owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  strategies  Strategy[]
+
+  @@index([ownerId])
+}
+
+model Strategy {
+  id             String    @id @default(cuid())
+  portfolioId    String
+  magicNumber    Int
+  name           String
+  symbol         String
+  timeframe      String
+  typology       String?
+  extractionType String?
+  status         String    @default("ok")
+  metrics        Json      @default("[]")
+  pnlCurve       Json      @default("[]")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  portfolio      Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+
+  @@index([portfolioId])
+  @@index([magicNumber])
+}
