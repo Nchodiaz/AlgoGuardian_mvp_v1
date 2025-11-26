@@ -3,6 +3,7 @@ import axios from 'axios';
 const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
 const GROUP_FREE = process.env.MAILERLITE_GROUP_FREE;
 const GROUP_PREMIUM = process.env.MAILERLITE_GROUP_PREMIUM;
+const GROUP_POTENTIAL = process.env.MAILERLITE_GROUP_POTENTIAL;
 
 interface MailerLiteSubscriber {
     email: string;
@@ -10,14 +11,20 @@ interface MailerLiteSubscriber {
     groups?: string[];
 }
 
-export const syncToMailerLite = async (user: { email: string; plan: string }) => {
+export const syncToMailerLite = async (user: { email: string; plan: string; isPotentialLead?: boolean }) => {
     if (!MAILERLITE_API_KEY) {
         console.warn('MailerLite API key not configured. Skipping sync.');
         return;
     }
 
     try {
-        const groupId = user.plan === 'premium' ? GROUP_PREMIUM : GROUP_FREE;
+        let groupId = GROUP_FREE;
+
+        if (user.plan === 'premium') {
+            groupId = GROUP_PREMIUM;
+        } else if (user.isPotentialLead) {
+            groupId = GROUP_POTENTIAL;
+        }
 
         const payload: MailerLiteSubscriber = {
             email: user.email,

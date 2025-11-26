@@ -49,7 +49,11 @@ export const register = async (req: Request, res: Response) => {
         });
 
         // Sync to MailerLite (Fire and Forget)
-        syncToMailerLite({ email: user.email, plan: (user as any).plan });
+        syncToMailerLite({
+            email: user.email,
+            plan: (user as any).plan,
+            isPotentialLead: (user as any).isPotentialLead
+        });
 
         // Generate JWT
         const token = jwt.sign(
