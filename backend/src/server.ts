@@ -13,8 +13,8 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-    origin: true, // Temporarily allow all origins to debug deployment
-    credentials: true
+    origin: '*',
+    credentials: false
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
