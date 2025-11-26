@@ -5,6 +5,9 @@ import prisma from '../prisma';
 
 import { syncToMailerLite } from '../services/mailerlite.service';
 
+import crypto from 'crypto';
+import { sendVerificationEmail } from '../services/email.service';
+
 export const register = async (req: Request, res: Response) => {
     try {
         // Force plan to be 'free' for new registrations
@@ -27,6 +30,9 @@ export const register = async (req: Request, res: Response) => {
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // Generate verification token
+        const verificationToken = crypto.randomBytes(32).toString('hex');
+
         // Calculate subscription status
         let trialEndsAt = null;
         let subscriptionStatus = 'active';
@@ -44,7 +50,9 @@ export const register = async (req: Request, res: Response) => {
                 plan,
                 subscription_status: subscriptionStatus,
                 trial_ends_at: trialEndsAt,
-                isPotentialLead: isPotentialLead || false
+                isPotentialLead: isPotentialLead || false,
+                isVerified: false,
+                verificationToken
             } as any
         });
 
@@ -55,15 +63,11 @@ export const register = async (req: Request, res: Response) => {
             isPotentialLead: (user as any).isPotentialLead
         });
 
-        // Generate JWT
-        const token = jwt.sign(
-            { userId: user.id },
-            process.env.JWT_SECRET!,
-            { expiresIn: '7d' }
-        );
+        // Send verification email
+        await sendVerificationEmail(user.email, verificationToken);
 
         res.status(201).json({
-            token,
+            message: 'Account created successfully. Please check your email to verify your account.',
             user: {
                 id: user.id,
                 email: user.email,
@@ -93,6 +97,14 @@ export const login = async (req: Request, res: Response) => {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        // Check verification status
+        if (!(user as any).isVerified) {
+            return res.status(403).json({
+                error: 'Email not verified. Please check your inbox.',
+                code: 'EMAIL_NOT_VERIFIED'
+            });
+        }
+
         // Verify password
         const isValidPassword = await bcrypt.compare(password, user.password);
 
@@ -117,6 +129,37 @@ export const login = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Failed to login' });
+    }
+};
+
+export const verifyEmail = async (req: Request, res: Response) => {
+    try {
+        const { token } = req.query;
+
+        if (!token || typeof token !== 'string') {
+            return res.status(400).json({ error: 'Invalid token' });
+        }
+
+        const user = await prisma.user.findFirst({
+            where: { verificationToken: token }
+        });
+
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid or expired verification token' });
+        }
+
+        await prisma.user.update({
+            where: { id: user.id },
+            data: {
+                isVerified: true,
+                verificationToken: null
+            } as any
+        });
+
+        res.json({ message: 'Email verified successfully' });
+    } catch (error) {
+        console.error('Verify email error:', error);
+        res.status(500).json({ error: 'Failed to verify email' });
     }
 };
 export const getMe = async (req: any, res: Response) => {

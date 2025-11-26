@@ -45,12 +45,12 @@ const apiCall = async (endpoint: string, options: RequestInit = {}) => {
 
 // Auth API
 export const authApi = {
-    register: async (email: string, password: string, plan?: string, isPotentialLead?: boolean): Promise<{ token: string; user: { id: string; email: string } }> => {
+    register: async (email: string, password: string, plan?: string, isPotentialLead?: boolean): Promise<{ message: string; user: { id: string; email: string } }> => {
         const data = await apiCall('/auth/register', {
             method: 'POST',
             body: JSON.stringify({ email, password, plan, isPotentialLead }),
         });
-        setAuthToken(data.token);
+        // Do not set auth token as email verification is required
         return data;
     },
 
@@ -83,6 +83,10 @@ export const authApi = {
             method: 'PUT',
             body: JSON.stringify(data),
         });
+    },
+
+    verifyEmail: async (token: string): Promise<{ message: string }> => {
+        return apiCall(`/auth/verify-email?token=${token}`);
     },
 };
 

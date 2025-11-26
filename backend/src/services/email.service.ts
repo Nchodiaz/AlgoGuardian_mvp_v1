@@ -1,0 +1,32 @@
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export const sendVerificationEmail = async (email: string, token: string) => {
+    if (!process.env.RESEND_API_KEY) {
+        console.warn('RESEND_API_KEY not found. Skipping email sending.');
+        console.log(`[DEV] Verification Token for ${email}: ${token}`);
+        return;
+    }
+
+    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${token}`;
+
+    try {
+        const data = await resend.emails.send({
+            from: 'AlgoGuardian <onboarding@resend.dev>', // Use resend.dev for testing if no domain
+            to: [email],
+            subject: 'Verify your AlgoGuardian account',
+            html: `
+                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h1>Welcome to AlgoGuardian! 🛡️</h1>
+                    <p>Please verify your email address to activate your account.</p>
+                    <a href="${verificationUrl}" style="display: inline-block; background-color: #2563EB; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Verify Email</a>
+                    <p style="margin-top: 20px; font-size: 12px; color: #666;">If you didn't create this account, you can safely ignore this email.</p>
+                </div>
+            `
+        });
+        console.log(`Verification email sent to ${email}. ID: ${data.data?.id}`);
+    } catch (error) {
+        console.error('Failed to send verification email:', error);
+    }
+};

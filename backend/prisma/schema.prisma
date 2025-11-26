@@ -27,6 +27,10 @@ model User {
   cardLast4              String?
   cardBrand              String?
   stripeCustomerId       String?
+
+  // Email Verification
+  isVerified             Boolean   @default(false)
+  verificationToken      String?
 }
 
 model Portfolio {

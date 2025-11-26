@@ -12,10 +12,13 @@ import { ExclamationIcon } from './components/Icons';
 import { SettingsPage } from './components/SettingsPage';
 import { LandingPage } from './components/landing/LandingPage';
 
+import { VerifyEmailPage } from './components/VerifyEmailPage';
+
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAuthToken());
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authView, setAuthView] = useState<'login' | 'signup'>('login');
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(window.location.pathname === '/verify-email');
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
   const [selectedIsPotentialLead, setSelectedIsPotentialLead] = useState(false);
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
@@ -224,6 +227,19 @@ const App: React.FC = () => {
       }
     }, 100);
   };
+
+  if (isVerifyingEmail) {
+    return (
+      <VerifyEmailPage
+        onVerificationComplete={() => {
+          setIsVerifyingEmail(false);
+          setAuthView('login');
+          setIsAuthModalOpen(true);
+          window.history.pushState({}, '', '/');
+        }}
+      />
+    );
+  }
 
   if (!isAuthenticated) {
     return (
