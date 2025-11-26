@@ -215,6 +215,16 @@ const App: React.FC = () => {
     }
   };
 
+  const handleGoToPricing = () => {
+    setIsAuthModalOpen(false);
+    setTimeout(() => {
+      const pricingSection = document.getElementById('pricing');
+      if (pricingSection) {
+        pricingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
   if (!isAuthenticated) {
     return (
       <>
@@ -225,7 +235,13 @@ const App: React.FC = () => {
           title=""
           hideTitle={true}
         >
-          <Auth onAuthSuccess={handleAuthSuccess} initialView={authView} selectedPlan={selectedPlan} isPotentialLead={selectedIsPotentialLead} />
+          <Auth
+            onAuthSuccess={handleAuthSuccess}
+            initialView={authView}
+            selectedPlan={selectedPlan}
+            isPotentialLead={selectedIsPotentialLead}
+            onGoToPricing={handleGoToPricing}
+          />
         </Modal>
       </>
     )
