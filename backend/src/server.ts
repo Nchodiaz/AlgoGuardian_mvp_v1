@@ -26,6 +26,10 @@ app.use('/api/strategies', strategyRoutes);
 app.use('/api/subscription', subscriptionRoutes);
 
 // Health check
+app.get('/', (req, res) => {
+    res.send('AlgoGuardian Backend is Alive!');
+});
+
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', message: 'AlgoGuardian API is running' });
 });
