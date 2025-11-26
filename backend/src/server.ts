@@ -13,7 +13,12 @@ const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5000',
+    origin: [
+        process.env.FRONTEND_URL || 'http://localhost:5000',
+        'https://algoguardian.com',
+        'https://www.algoguardian.com',
+        'http://localhost:5173'
+    ],
     credentials: true
 }));
 app.use(express.json());
