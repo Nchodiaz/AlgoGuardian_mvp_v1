@@ -111,6 +111,8 @@ function getCardBrand(number: string): string {
     return 'Unknown';
 }
 
+import { syncToMailerLite } from '../services/mailerlite.service';
+
 export const recordUpgradeAttempt = async (req: AuthRequest, res: Response) => {
     try {
         const userId = req.userId;
@@ -119,9 +121,16 @@ export const recordUpgradeAttempt = async (req: AuthRequest, res: Response) => {
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
-        await prisma.user.update({
+        const updatedUser = await prisma.user.update({
             where: { id: userId },
             data: { isPotentialLead: true }
+        });
+
+        // Sync to MailerLite
+        await syncToMailerLite({
+            email: updatedUser.email,
+            plan: updatedUser.plan,
+            isPotentialLead: true
         });
 
         res.json({ message: 'User marked as potential lead' });
