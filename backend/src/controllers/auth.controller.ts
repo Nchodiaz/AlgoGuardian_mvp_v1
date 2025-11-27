@@ -185,12 +185,19 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 extractionType: 'In Sample',
                                 status: 'ok',
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', value: 15000 },
-                                    { id: 'profit_factor', value: 1.8 },
-                                    { id: 'win_rate', value: 55 },
-                                    { id: 'max_drawdown', value: 12 }
+                                    { id: 'net_profit', backtestValue: 12000, realtimeValue: 15000 },
+                                    { id: 'profit_factor', backtestValue: 1.6, realtimeValue: 1.8 },
+                                    { id: 'win_rate', backtestValue: 50, realtimeValue: 55 },
+                                    { id: 'max_drawdown', backtestValue: 15, realtimeValue: 12 },
+                                    { id: 'num_trades', backtestValue: 150, realtimeValue: 45 }
                                 ]),
-                                pnlCurve: JSON.stringify([])
+                                pnlCurve: JSON.stringify([
+                                    { date: new Date(Date.now() - 86400000 * 30).toISOString(), Backtest: 10000 },
+                                    { date: new Date(Date.now() - 86400000 * 20).toISOString(), Backtest: 11000 },
+                                    { date: new Date(Date.now() - 86400000 * 10).toISOString(), Backtest: 12000 },
+                                    { date: new Date(Date.now() - 86400000 * 5).toISOString(), 'Real Time': 12500 },
+                                    { date: new Date().toISOString(), 'Real Time': 15000 }
+                                ])
                             },
                             {
                                 magicNumber: 1002,
@@ -201,12 +208,18 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 extractionType: 'Out of Sample',
                                 status: 'ok',
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', value: 8500 },
-                                    { id: 'profit_factor', value: 1.5 },
-                                    { id: 'win_rate', value: 62 },
-                                    { id: 'max_drawdown', value: 8 }
+                                    { id: 'net_profit', backtestValue: 8000, realtimeValue: 8500 },
+                                    { id: 'profit_factor', backtestValue: 1.4, realtimeValue: 1.5 },
+                                    { id: 'win_rate', backtestValue: 60, realtimeValue: 62 },
+                                    { id: 'max_drawdown', backtestValue: 10, realtimeValue: 8 },
+                                    { id: 'num_trades', backtestValue: 200, realtimeValue: 60 }
                                 ]),
-                                pnlCurve: JSON.stringify([])
+                                pnlCurve: JSON.stringify([
+                                    { date: new Date(Date.now() - 86400000 * 30).toISOString(), Backtest: 10000 },
+                                    { date: new Date(Date.now() - 86400000 * 15).toISOString(), Backtest: 10500 },
+                                    { date: new Date(Date.now() - 86400000 * 5).toISOString(), 'Real Time': 10800 },
+                                    { date: new Date().toISOString(), 'Real Time': 11500 }
+                                ])
                             },
                             {
                                 magicNumber: 1003,
@@ -217,12 +230,19 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 extractionType: 'Live',
                                 status: 'ok',
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', value: 22000 },
-                                    { id: 'profit_factor', value: 2.1 },
-                                    { id: 'win_rate', value: 48 },
-                                    { id: 'max_drawdown', value: 15 }
+                                    { id: 'net_profit', backtestValue: 20000, realtimeValue: 22000 },
+                                    { id: 'profit_factor', backtestValue: 2.0, realtimeValue: 2.1 },
+                                    { id: 'win_rate', backtestValue: 45, realtimeValue: 48 },
+                                    { id: 'max_drawdown', backtestValue: 18, realtimeValue: 15 },
+                                    { id: 'num_trades', backtestValue: 100, realtimeValue: 30 }
                                 ]),
-                                pnlCurve: JSON.stringify([])
+                                pnlCurve: JSON.stringify([
+                                    { date: new Date(Date.now() - 86400000 * 30).toISOString(), Backtest: 10000 },
+                                    { date: new Date(Date.now() - 86400000 * 25).toISOString(), Backtest: 12000 },
+                                    { date: new Date(Date.now() - 86400000 * 10).toISOString(), Backtest: 15000 },
+                                    { date: new Date(Date.now() - 86400000 * 2).toISOString(), 'Real Time': 16000 },
+                                    { date: new Date().toISOString(), 'Real Time': 18000 }
+                                ])
                             }
                         ]
                     }

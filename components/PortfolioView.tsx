@@ -1146,13 +1146,69 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                             <table className="min-w-full divide-y divide-gray-700">
                                 <thead className="bg-gray-800">
                                     <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Magic Number</th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Name</th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Symbol</th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Timeframe</th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Typology</th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Extraction Type</th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Magic Number
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Unique identifier for the strategy.
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Name
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Strategy name.
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Symbol
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Trading pair or asset.
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Timeframe
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Chart timeframe used.
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Typology
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Strategy type (e.g., Trend, Mean Reversion).
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Extraction Type
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Data source type (In Sample, Out of Sample, Live).
+                                            </div>
+                                        </th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
+                                            <div className="flex items-center gap-1 cursor-help">
+                                                Status
+                                                <InformationCircleIcon className="h-4 w-4 text-gray-500" />
+                                            </div>
+                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                                Current monitoring status based on metric rules.
+                                            </div>
+                                        </th>
                                         <th scope="col" className="relative px-6 py-3"><span className="sr-only">View</span></th>
                                         <th scope="col" className="relative px-6 py-3"><span className="sr-only">Actions</span></th>
                                     </tr>
