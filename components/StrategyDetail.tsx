@@ -44,6 +44,10 @@ const MetricCard: React.FC<{ metric: Metric, rules: MetricRule[] }> = ({ metric,
   const rt = parseFloat(metric.realtimeValue as string);
 
   const percentageChange = (!isNaN(bt) && !isNaN(rt) && bt !== 0) ? ((rt - bt) / Math.abs(bt)) * 100 : 0;
+  // Calculate diff for display (always percentage change)
+  const diff = percentageChange;
+
+  const isLowerBetter = ['max_drawdown', 'stagnation_days'].includes(metric.id);
 
   let deviation = 0;
   if (isLowerBetter) {
@@ -58,6 +62,16 @@ const MetricCard: React.FC<{ metric: Metric, rules: MetricRule[] }> = ({ metric,
     }
   }
 
+  let diffColor;
+  if (isLowerBetter) {
+    // Increase is bad (Red), Decrease is good (Green)
+    diffColor = diff > 0 ? 'text-red-400' : 'text-green-400';
+  } else {
+    // Increase is good (Green), Decrease is bad (Red)
+    diffColor = diff >= 0 ? 'text-green-400' : 'text-red-400';
+  }
+
+  const rule = rules.find(r => r.metricId === metric.id);
   let ringClasses = 'ring-1 ring-white/10';
   if (rule && rule.isAlerting) {
     if (deviation >= rule.deactivationThreshold) {
