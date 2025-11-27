@@ -1148,7 +1148,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                 <thead className="bg-gray-800">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Unique identifier for the strategy.">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Magic Number
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
@@ -1157,7 +1157,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Strategy name.">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Name
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
@@ -1166,7 +1166,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Trading pair or asset.">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Symbol
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
@@ -1175,7 +1175,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Chart timeframe used.">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Timeframe
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
@@ -1184,7 +1184,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Strategy type (e.g., Trend, Mean Reversion).">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Typology
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
@@ -1193,16 +1193,16 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Data source type (In Sample, Out of Sample, Live).">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Extraction Type
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
-                                                Data source type (In Sample, Out of Sample, Live).
+                                            <div className="absolute top-full left-0 mt-2 w-64 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
+                                                Method used to identify the strategy: 'Data Driven' (mining historical data) or 'Idea Driven' (based on fundamental economic logic).
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help" title="Current monitoring status based on metric rules.">
+                                            <div className="flex items-center gap-1 cursor-help">
                                                 Status
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
