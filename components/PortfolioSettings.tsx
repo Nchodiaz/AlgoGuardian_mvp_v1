@@ -5,7 +5,7 @@ import { DASHBOARD_AVAILABLE_METRICS } from '../services/api';
 
 interface PortfolioSettingsProps {
   portfolio: Portfolio;
-  onSave: (portfolioId: string, settings: { name: string, metricRules: MetricRule[] }) => void;
+  onSave: (portfolioId: string, settings: { name: string, metricRules: MetricRule[], initialBalance?: number }) => void;
   onDelete: (portfolioId: string) => void;
 }
 
@@ -13,6 +13,7 @@ const inputStyles = "appearance-none block w-full px-3 py-2 border border-gray-6
 
 export const PortfolioSettings: React.FC<PortfolioSettingsProps> = ({ portfolio, onSave, onDelete }) => {
   const [name, setName] = useState('');
+  const [initialBalance, setInitialBalance] = useState<string>('10000');
   const [rules, setRules] = useState<MetricRule[]>([]);
   const [isDirty, setIsDirty] = useState(false);
   const [showSavedMessage, setShowSavedMessage] = useState(false);
@@ -22,6 +23,7 @@ export const PortfolioSettings: React.FC<PortfolioSettingsProps> = ({ portfolio,
   useEffect(() => {
     if (portfolio && portfolio.id !== prevPortfolioId) {
       setName(portfolio.name);
+      setInitialBalance(portfolio.initialBalance?.toString() || '10000');
       setRules(portfolio.metricRules || []);
       setIsDirty(false);
       setPrevPortfolioId(portfolio.id);
@@ -31,13 +33,14 @@ export const PortfolioSettings: React.FC<PortfolioSettingsProps> = ({ portfolio,
   useEffect(() => {
     if (portfolio) {
       const nameChanged = name !== portfolio.name;
+      const balanceChanged = parseFloat(initialBalance) !== (portfolio.initialBalance || 10000);
       const rulesChanged = JSON.stringify(rules) !== JSON.stringify(portfolio.metricRules || []);
-      setIsDirty(nameChanged || rulesChanged);
+      setIsDirty(nameChanged || rulesChanged || balanceChanged);
     }
-  }, [name, rules, portfolio]);
+  }, [name, rules, initialBalance, portfolio]);
 
   const handleSave = () => {
-    onSave(portfolio.id, { name, metricRules: rules });
+    onSave(portfolio.id, { name, metricRules: rules, initialBalance: parseFloat(initialBalance) });
     setIsDirty(false);
     setShowSavedMessage(true);
     setTimeout(() => setShowSavedMessage(false), 3000);
@@ -100,6 +103,20 @@ export const PortfolioSettings: React.FC<PortfolioSettingsProps> = ({ portfolio,
             onChange={(e) => setName(e.target.value)}
             className={`${inputStyles} max-w-sm`}
           />
+        </div>
+        <div>
+          <label htmlFor="initialBalance" className="block text-sm font-medium text-gray-300 mb-1">
+            Initial Account Size ($)
+          </label>
+          <input
+            id="initialBalance"
+            type="number"
+            value={initialBalance}
+            onChange={(e) => setInitialBalance(e.target.value)}
+            className={`${inputStyles} max-w-sm`}
+            placeholder="10000"
+          />
+          <p className="text-xs text-gray-500 mt-1">This value will be used as the starting balance for all portfolio visualizations.</p>
         </div>
 
         <div className="border-t border-gray-700 pt-6">

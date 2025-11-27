@@ -65,7 +65,7 @@ export const createPortfolio = async (req: AuthRequest, res: Response) => {
 export const updatePortfolio = async (req: AuthRequest, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, metricRules } = req.body;
+        const { name, metricRules, initialBalance } = req.body;
 
         // Verify ownership
         const portfolio = await prisma.portfolio.findFirst({
@@ -80,7 +80,8 @@ export const updatePortfolio = async (req: AuthRequest, res: Response) => {
             where: { id },
             data: {
                 ...(name && { name }),
-                ...(metricRules && { metricRules })
+                ...(metricRules && { metricRules }),
+                ...(initialBalance !== undefined && { initialBalance: parseFloat(initialBalance) })
             }
         });
 

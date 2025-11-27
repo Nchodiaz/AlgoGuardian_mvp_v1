@@ -230,29 +230,17 @@ export const verifyEmail = async (req: Request, res: Response) => {
                 verificationToken: null
             } as any
         });
-
         // Create Example Portfolio
         try {
-            const examplePortfolio = await prisma.portfolio.create({
+            await prisma.portfolio.create({
                 data: {
                     name: 'Example Portfolio 🚀',
                     ownerId: user.id,
                     isExample: true,
+                    initialBalance: 100000,
                     metricRules: [
-                        {
-                            metricId: 'max_drawdown',
-                            name: 'Max Drawdown Deviation',
-                            alertThreshold: 15,
-                            deactivationThreshold: 20,
-                            isAlerting: true
-                        },
-                        {
-                            metricId: 'profit_factor',
-                            name: 'Profit Factor Deviation',
-                            alertThreshold: 10,
-                            deactivationThreshold: 15,
-                            isAlerting: true
-                        }
+                        { metricId: 'max_drawdown', name: 'Max Drawdown Deviation', alertThreshold: 15, deactivationThreshold: 20, isAlerting: true },
+                        { metricId: 'profit_factor', name: 'Profit Factor Deviation', alertThreshold: 10, deactivationThreshold: 15, isAlerting: true }
                     ],
                     strategies: {
                         create: [
@@ -283,7 +271,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 timeframe: 'M15',
                                 typology: 'Mean Reversion',
                                 extractionType: 'Data Driven',
-                                status: 'ok', // Will be recalculated to Alert by frontend
+                                status: 'ok',
                                 metrics: JSON.stringify([
                                     { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 8000, realtimeValue: 7500, backtestValueAlt: '15.0', realtimeValueAlt: '14.0' },
                                     { id: 'num_trades', name: 'Nº Trades', unit: '', backtestValue: 200, realtimeValue: 60 },
@@ -303,7 +291,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 timeframe: 'H4',
                                 typology: 'Breakout',
                                 extractionType: 'Data Driven',
-                                status: 'ok', // Will be recalculated to Deactivated by frontend
+                                status: 'ok',
                                 metrics: JSON.stringify([
                                     { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 20000, realtimeValue: 18000, backtestValueAlt: '40.0', realtimeValueAlt: '35.0' },
                                     { id: 'num_trades', name: 'Nº Trades', unit: '', backtestValue: 100, realtimeValue: 30 },
