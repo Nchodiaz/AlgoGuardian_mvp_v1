@@ -56,12 +56,7 @@ export const register = async (req: Request, res: Response) => {
             } as any
         });
 
-        // Sync to MailerLite (Fire and Forget)
-        syncToMailerLite({
-            email: user.email,
-            plan: (user as any).plan,
-            isPotentialLead: (user as any).isPotentialLead
-        });
+
 
         // Send verification email
         await sendVerificationEmail(user.email, verificationToken);
