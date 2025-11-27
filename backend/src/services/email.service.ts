@@ -1,9 +1,11 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY
+    ? new Resend(process.env.RESEND_API_KEY)
+    : null;
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-    if (!process.env.RESEND_API_KEY) {
+    if (!resend) {
         console.warn('RESEND_API_KEY not found. Skipping email sending.');
         console.log(`[DEV] Verification Token for ${email}: ${token}`);
         return;
