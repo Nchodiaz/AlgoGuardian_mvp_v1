@@ -200,11 +200,11 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 extractionType: 'Idea Driven',
                                 status: 'ok',
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', backtestValue: 12000, realtimeValue: 15000 },
-                                    { id: 'profit_factor', backtestValue: 1.6, realtimeValue: 1.8 },
-                                    { id: 'win_rate', backtestValue: 50, realtimeValue: 55 },
-                                    { id: 'max_drawdown', backtestValue: 15, realtimeValue: 12 },
-                                    { id: 'num_trades', backtestValue: 150, realtimeValue: 45 }
+                                    { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 12000, realtimeValue: 15000 },
+                                    { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 1.6, realtimeValue: 1.8 },
+                                    { id: 'win_rate', name: 'Win Rate', unit: '%', backtestValue: 50, realtimeValue: 55 },
+                                    { id: 'max_drawdown', name: 'Max Drawdown', unit: '%', backtestValue: 15, realtimeValue: 12 },
+                                    { id: 'num_trades', name: 'No Trades', unit: '', backtestValue: 150, realtimeValue: 45 }
                                 ]),
                                 pnlCurve: JSON.stringify([
                                     { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
@@ -226,11 +226,11 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 extractionType: 'Data Driven',
                                 status: 'ok', // Will be recalculated to Alert by frontend
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', backtestValue: 8000, realtimeValue: 7500 },
-                                    { id: 'profit_factor', backtestValue: 1.5, realtimeValue: 1.4 },
-                                    { id: 'win_rate', backtestValue: 60, realtimeValue: 58 },
-                                    { id: 'max_drawdown', backtestValue: 10, realtimeValue: 11.8 }, // 18% deviation (Alert > 15%)
-                                    { id: 'num_trades', backtestValue: 200, realtimeValue: 60 }
+                                    { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 8000, realtimeValue: 7500 },
+                                    { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 1.5, realtimeValue: 1.4 },
+                                    { id: 'win_rate', name: 'Win Rate', unit: '%', backtestValue: 60, realtimeValue: 58 },
+                                    { id: 'max_drawdown', name: 'Max Drawdown', unit: '%', backtestValue: 10, realtimeValue: 11.8 }, // 18% deviation (Alert > 15%)
+                                    { id: 'num_trades', name: 'No Trades', unit: '', backtestValue: 200, realtimeValue: 60 }
                                 ]),
                                 pnlCurve: JSON.stringify([
                                     { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
@@ -250,11 +250,11 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 extractionType: 'Data Driven',
                                 status: 'ok', // Will be recalculated to Deactivated by frontend
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', backtestValue: 20000, realtimeValue: 18000 },
-                                    { id: 'profit_factor', backtestValue: 2.0, realtimeValue: 1.5 }, // 25% deviation (Deactivate > 15%)
-                                    { id: 'win_rate', backtestValue: 45, realtimeValue: 40 },
-                                    { id: 'max_drawdown', backtestValue: 18, realtimeValue: 19 },
-                                    { id: 'num_trades', backtestValue: 100, realtimeValue: 30 }
+                                    { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 20000, realtimeValue: 18000 },
+                                    { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 2.0, realtimeValue: 1.5 }, // 25% deviation (Deactivate > 15%)
+                                    { id: 'win_rate', name: 'Win Rate', unit: '%', backtestValue: 45, realtimeValue: 40 },
+                                    { id: 'max_drawdown', name: 'Max Drawdown', unit: '%', backtestValue: 18, realtimeValue: 19 },
+                                    { id: 'num_trades', name: 'No Trades', unit: '', backtestValue: 100, realtimeValue: 30 }
                                 ]),
                                 pnlCurve: JSON.stringify([
                                     { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
