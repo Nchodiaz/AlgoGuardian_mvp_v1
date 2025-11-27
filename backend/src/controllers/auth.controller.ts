@@ -59,7 +59,16 @@ export const register = async (req: Request, res: Response) => {
 
 
         // Send verification email
-        await sendVerificationEmail(user.email, verificationToken);
+        try {
+            await sendVerificationEmail(user.email, verificationToken);
+        } catch (emailError: any) {
+            // Rollback: Delete user if email fails
+            await prisma.user.delete({ where: { id: user.id } });
+            console.error('Registration rollback: User deleted due to email failure', emailError);
+            return res.status(400).json({
+                error: 'Failed to send verification email. Please check your email address and try again.'
+            });
+        }
 
         res.status(201).json({
             message: 'Account created successfully. Please check your email to verify your account.',
