@@ -54,7 +54,7 @@ export const Auth: React.FC<AuthProps> = ({ onAuthSuccess, initialView, selected
 
     return (
         <div className="w-full">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md pt-12">
                 <div className="flex justify-center items-center">
                     <img src="/logo.svg" alt="AlgoGuardian" className="h-14 w-14" />
                     <h1 className="text-3xl font-bold ml-3 text-white">AlgoGuardian</h1>
