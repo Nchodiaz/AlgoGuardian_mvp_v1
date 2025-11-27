@@ -43,21 +43,21 @@ const MetricCard: React.FC<{ metric: Metric, rules: MetricRule[] }> = ({ metric,
   const bt = parseFloat(metric.backtestValue as string);
   const rt = parseFloat(metric.realtimeValue as string);
 
-  const deviation = (!isNaN(bt) && !isNaN(rt) && bt !== 0) ? Math.abs((rt - bt) / bt) * 100 : 0;
-  const diff = bt !== 0 ? ((rt - bt) / Math.abs(bt)) * 100 : (rt > 0 ? 100 : (rt < 0 ? -100 : 0));
+  const percentageChange = (!isNaN(bt) && !isNaN(rt) && bt !== 0) ? ((rt - bt) / Math.abs(bt)) * 100 : 0;
 
-  const isLowerBetter = ['max_drawdown', 'stagnation_days'].includes(metric.id);
-
-  let diffColor;
+  let deviation = 0;
   if (isLowerBetter) {
-    // Increase is bad (Red), Decrease is good (Green)
-    diffColor = diff > 0 ? 'text-red-400' : 'text-green-400';
+    // For "lower is better" (e.g. DD), only count if value increased (worsened)
+    if (percentageChange > 0) {
+      deviation = percentageChange;
+    }
   } else {
-    // Increase is good (Green), Decrease is bad (Red)
-    diffColor = diff >= 0 ? 'text-green-400' : 'text-red-400';
+    // For "higher is better" (e.g. Profit), only count if value decreased (worsened)
+    if (percentageChange < 0) {
+      deviation = Math.abs(percentageChange);
+    }
   }
 
-  const rule = rules.find(r => r.metricId === metric.id);
   let ringClasses = 'ring-1 ring-white/10';
   if (rule && rule.isAlerting) {
     if (deviation >= rule.deactivationThreshold) {

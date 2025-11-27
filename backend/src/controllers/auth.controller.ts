@@ -224,12 +224,12 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 timeframe: 'M15',
                                 typology: 'Mean Reversion',
                                 extractionType: 'Data Driven',
-                                status: 'ok',
+                                status: 'ok', // Will be recalculated to Alert by frontend
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', backtestValue: 8000, realtimeValue: 8500 },
-                                    { id: 'profit_factor', backtestValue: 1.4, realtimeValue: 1.5 },
-                                    { id: 'win_rate', backtestValue: 60, realtimeValue: 62 },
-                                    { id: 'max_drawdown', backtestValue: 10, realtimeValue: 8 },
+                                    { id: 'net_profit', backtestValue: 8000, realtimeValue: 7500 },
+                                    { id: 'profit_factor', backtestValue: 1.5, realtimeValue: 1.4 },
+                                    { id: 'win_rate', backtestValue: 60, realtimeValue: 58 },
+                                    { id: 'max_drawdown', backtestValue: 10, realtimeValue: 11.8 }, // 18% deviation (Alert > 15%)
                                     { id: 'num_trades', backtestValue: 200, realtimeValue: 60 }
                                 ]),
                                 pnlCurve: JSON.stringify([
@@ -237,8 +237,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { date: '2024-10-01T00:00:00.000Z', Backtest: 10200 },
                                     { date: '2025-03-01T00:00:00.000Z', Backtest: 10500 },
                                     { date: '2025-03-02T00:00:00.000Z', 'Real Time': 10500 },
-                                    { date: '2025-07-01T00:00:00.000Z', 'Real Time': 11000 },
-                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 11500 }
+                                    { date: '2025-07-01T00:00:00.000Z', 'Real Time': 10200 },
+                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 10000 }
                                 ])
                             },
                             {
@@ -248,12 +248,12 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 timeframe: 'H4',
                                 typology: 'Breakout',
                                 extractionType: 'Data Driven',
-                                status: 'ok',
+                                status: 'ok', // Will be recalculated to Deactivated by frontend
                                 metrics: JSON.stringify([
-                                    { id: 'net_profit', backtestValue: 20000, realtimeValue: 22000 },
-                                    { id: 'profit_factor', backtestValue: 2.0, realtimeValue: 2.1 },
-                                    { id: 'win_rate', backtestValue: 45, realtimeValue: 48 },
-                                    { id: 'max_drawdown', backtestValue: 18, realtimeValue: 15 },
+                                    { id: 'net_profit', backtestValue: 20000, realtimeValue: 18000 },
+                                    { id: 'profit_factor', backtestValue: 2.0, realtimeValue: 1.5 }, // 25% deviation (Deactivate > 15%)
+                                    { id: 'win_rate', backtestValue: 45, realtimeValue: 40 },
+                                    { id: 'max_drawdown', backtestValue: 18, realtimeValue: 19 },
                                     { id: 'num_trades', backtestValue: 100, realtimeValue: 30 }
                                 ]),
                                 pnlCurve: JSON.stringify([
@@ -262,8 +262,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { date: '2025-01-01T00:00:00.000Z', Backtest: 15000 },
                                     { date: '2025-03-01T00:00:00.000Z', Backtest: 16000 },
                                     { date: '2025-03-02T00:00:00.000Z', 'Real Time': 16000 },
-                                    { date: '2025-08-01T00:00:00.000Z', 'Real Time': 17500 },
-                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 18000 }
+                                    { date: '2025-08-01T00:00:00.000Z', 'Real Time': 15500 },
+                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 15000 }
                                 ])
                             }
                         ]
