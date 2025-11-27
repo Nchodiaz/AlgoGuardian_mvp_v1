@@ -85,8 +85,12 @@ export const authApi = {
         });
     },
 
-    verifyEmail: async (token: string): Promise<{ message: string }> => {
-        return apiCall(`/auth/verify-email?token=${token}`);
+    verifyEmail: async (token: string): Promise<{ message: string; token?: string; user?: { id: string; email: string } }> => {
+        const data = await apiCall(`/auth/verify-email?token=${token}`);
+        if (data.token) {
+            setAuthToken(data.token);
+        }
+        return data;
     },
 };
 

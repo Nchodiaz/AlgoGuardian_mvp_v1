@@ -23,10 +23,13 @@ export const VerifyEmailPage: React.FC<VerifyEmailPageProps> = ({ onVerification
             try {
                 await authApi.verifyEmail(token);
                 setStatus('success');
-                setMessage('Email verified successfully! You can now log in.');
+                setMessage('Email verified successfully! Logging you in...');
+
+                // Auto-login successful (token set in authApi.verifyEmail)
                 setTimeout(() => {
-                    onVerificationComplete();
-                }, 3000);
+                    // Redirect to dashboard
+                    window.location.href = '/dashboard';
+                }, 1500);
             } catch (error: any) {
                 setStatus('error');
                 setMessage(error.message || 'Failed to verify email. The link may be expired or invalid.');

@@ -11,7 +11,8 @@ export const sendVerificationEmail = async (email: string, token: string) => {
         return;
     }
 
-    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${token}`;
+    const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').trim().replace(/\/$/, '');
+    const verificationUrl = `${frontendUrl}/verify-email?token=${token}`;
 
     try {
         const data = await resend.emails.send({

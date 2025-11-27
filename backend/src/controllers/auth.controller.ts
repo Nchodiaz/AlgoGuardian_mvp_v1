@@ -167,7 +167,21 @@ export const verifyEmail = async (req: Request, res: Response) => {
             isPotentialLead: (user as any).isPotentialLead
         });
 
-        res.json({ message: 'Email verified successfully' });
+        // Generate JWT for auto-login
+        const jwtToken = jwt.sign(
+            { userId: user.id },
+            process.env.JWT_SECRET!,
+            { expiresIn: '7d' }
+        );
+
+        res.json({
+            message: 'Email verified successfully',
+            token: jwtToken,
+            user: {
+                id: user.id,
+                email: user.email
+            }
+        });
     } catch (error) {
         console.error('Verify email error:', error);
         res.status(500).json({ error: 'Failed to verify email' });
