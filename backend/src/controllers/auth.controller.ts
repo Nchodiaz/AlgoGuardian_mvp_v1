@@ -230,17 +230,29 @@ export const verifyEmail = async (req: Request, res: Response) => {
                 verificationToken: null
             } as any
         });
+
         // Create Example Portfolio
         try {
-            await prisma.portfolio.create({
+            const examplePortfolio = await prisma.portfolio.create({
                 data: {
                     name: 'Example Portfolio 🚀',
                     ownerId: user.id,
                     isExample: true,
-                    initialBalance: 100000,
                     metricRules: [
-                        { metricId: 'max_drawdown', name: 'Max Drawdown Deviation', alertThreshold: 15, deactivationThreshold: 20, isAlerting: true },
-                        { metricId: 'profit_factor', name: 'Profit Factor Deviation', alertThreshold: 10, deactivationThreshold: 15, isAlerting: true }
+                        {
+                            metricId: 'max_drawdown',
+                            name: 'Max Drawdown Deviation',
+                            alertThreshold: 15,
+                            deactivationThreshold: 20,
+                            isAlerting: true
+                        },
+                        {
+                            metricId: 'profit_factor',
+                            name: 'Profit Factor Deviation',
+                            alertThreshold: 10,
+                            deactivationThreshold: 15,
+                            isAlerting: true
+                        }
                     ],
                     strategies: {
                         create: [
@@ -252,7 +264,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 typology: 'Trend',
                                 extractionType: 'Idea Driven',
                                 status: 'ok',
-                                metrics: JSON.stringify([
+                                metrics: [
                                     { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 12000, realtimeValue: 15000, backtestValueAlt: '25.0', realtimeValueAlt: '30.0' },
                                     { id: 'num_trades', name: 'Nº Trades', unit: '', backtestValue: 150, realtimeValue: 45 },
                                     { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 1.6, realtimeValue: 1.8 },
@@ -261,8 +273,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'max_drawdown', name: 'Max DD', unit: '$', backtestValue: 1800, realtimeValue: 1800, backtestValueAlt: '15.0', realtimeValueAlt: '12.0' },
                                     { id: 'win_rate', name: 'Winrate', unit: '%', backtestValue: 50, realtimeValue: 55 },
                                     { id: 'stagnation_days', name: 'Stagnation', unit: 'days', backtestValue: 45, realtimeValue: 15 }
-                                ]),
-                                pnlCurve: JSON.stringify(generateExampleCurve(10000, 22000, 25000, 'trend'))
+                                ],
+                                pnlCurve: generateExampleCurve(10000, 22000, 25000, 'trend')
                             },
                             {
                                 magicNumber: 1002,
@@ -271,8 +283,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 timeframe: 'M15',
                                 typology: 'Mean Reversion',
                                 extractionType: 'Data Driven',
-                                status: 'ok',
-                                metrics: JSON.stringify([
+                                status: 'ok', // Will be recalculated to Alert by frontend
+                                metrics: [
                                     { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 8000, realtimeValue: 7500, backtestValueAlt: '15.0', realtimeValueAlt: '14.0' },
                                     { id: 'num_trades', name: 'Nº Trades', unit: '', backtestValue: 200, realtimeValue: 60 },
                                     { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 1.5, realtimeValue: 1.4 },
@@ -281,8 +293,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'max_drawdown', name: 'Max DD', unit: '$', backtestValue: 1000, realtimeValue: 1180, backtestValueAlt: '10.0', realtimeValueAlt: '11.8' },
                                     { id: 'win_rate', name: 'Winrate', unit: '%', backtestValue: 60, realtimeValue: 58 },
                                     { id: 'stagnation_days', name: 'Stagnation', unit: 'days', backtestValue: 30, realtimeValue: 45 }
-                                ]),
-                                pnlCurve: JSON.stringify(generateExampleCurve(10000, 18000, 17500, 'mean_reversion'))
+                                ],
+                                pnlCurve: generateExampleCurve(10000, 18000, 17500, 'mean_reversion')
                             },
                             {
                                 magicNumber: 1003,
@@ -291,8 +303,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 timeframe: 'H4',
                                 typology: 'Breakout',
                                 extractionType: 'Data Driven',
-                                status: 'ok',
-                                metrics: JSON.stringify([
+                                status: 'ok', // Will be recalculated to Deactivated by frontend
+                                metrics: [
                                     { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 20000, realtimeValue: 18000, backtestValueAlt: '40.0', realtimeValueAlt: '35.0' },
                                     { id: 'num_trades', name: 'Nº Trades', unit: '', backtestValue: 100, realtimeValue: 30 },
                                     { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 2.0, realtimeValue: 1.5 },
@@ -301,8 +313,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'max_drawdown', name: 'Max DD', unit: '$', backtestValue: 1800, realtimeValue: 1900, backtestValueAlt: '18.0', realtimeValueAlt: '19.0' },
                                     { id: 'win_rate', name: 'Winrate', unit: '%', backtestValue: 45, realtimeValue: 40 },
                                     { id: 'stagnation_days', name: 'Stagnation', unit: 'days', backtestValue: 60, realtimeValue: 90 }
-                                ]),
-                                pnlCurve: JSON.stringify(generateExampleCurve(10000, 30000, 28000, 'breakout'))
+                                ],
+                                pnlCurve: generateExampleCurve(10000, 30000, 28000, 'breakout')
                             }
                         ]
                     }
