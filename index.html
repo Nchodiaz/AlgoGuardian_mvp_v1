@@ -1,69 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AlgoGuardian - Stop Strategy Drift Before It Stops You</title>
-    <meta name="description" content="AlgoGuardian protects your trading capital by detecting strategy drift in real-time. Stop losing money to outdated algorithms." />
-    <meta name="keywords" content="algorithmic trading, strategy drift, trading performance, risk management, forex, crypto, trading bot monitoring" />
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="AlgoGuardian - Stop Strategy Drift Before It Stops You" />
-    <meta property="og:description" content="Real-time performance monitoring and drift detection for algorithmic traders." />
-    <meta property="og:image" content="/logo.svg" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary" />
-    <meta property="twitter:title" content="AlgoGuardian - Stop Strategy Drift Before It Stops You" />
-    <meta property="twitter:description" content="Real-time performance monitoring and drift detection for algorithmic traders." />
-    <meta property="twitter:image" content="/logo.svg" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <style>
-      html {
-        scroll-behavior: smooth;
-        scroll-padding-top: 80px;
-      }
-    </style>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlgoGuardian - Shield Your Portfolio from Algorithmic Strategy Drift</title>
+  <meta name="description"
+    content="AlgoGuardian protects your trading capital by detecting strategy drift in real-time. Stop losing money to outdated algorithms." />
+  <meta name="keywords"
+    content="algorithmic trading, strategy drift, trading performance, risk management, forex, crypto, trading bot monitoring" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AlgoGuardian - Shield Your Portfolio from Algorithmic Strategy Drift" />
+  <meta property="og:description"
+    content="Real-time performance monitoring and drift detection for algorithmic traders." />
+  <meta property="og:image" content="/logo.svg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary" />
+  <meta property="twitter:title" content="AlgoGuardian - Shield Your Portfolio from Algorithmic Strategy Drift" />
+  <meta property="twitter:description"
+    content="Real-time performance monitoring and drift detection for algorithmic traders." />
+  <meta property="twitter:image" content="/logo.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            'gray-900': '#111827',
+            'gray-800': '#1F2937',
+            'gray-700': '#374151',
+            'gray-600': '#4B5563',
+            'gray-500': '#6B7280',
+            'gray-400': '#9CA3AF',
+            'gray-300': '#D1D5DB',
+            'gray-200': '#E5E7EB',
+            'gray-100': '#F3F4F6',
+            'gray-50': '#F9FAFB',
+            'primary': {
+              '50': '#eff6ff',
+              '100': '#dbeafe',
+              '200': '#bfdbfe',
+              '300': '#93c5fd',
+              '400': '#60a5fa',
+              '500': '#3b82f6',
+              '600': '#2563eb',
+              '700': '#1d4ed8',
+              '800': '#1e40af',
+              '900': '#1e3a8a',
             },
-            colors: {
-              'gray-900': '#111827',
-              'gray-800': '#1F2937',
-              'gray-700': '#374151',
-              'gray-600': '#4B5563',
-              'gray-500': '#6B7280',
-              'gray-400': '#9CA3AF',
-              'gray-300': '#D1D5DB',
-              'gray-200': '#E5E7EB',
-              'gray-100': '#F3F4F6',
-              'gray-50': '#F9FAFB',
-              'primary': {
-                '50': '#eff6ff',
-                '100': '#dbeafe',
-                '200': '#bfdbfe',
-                '300': '#93c5fd',
-                '400': '#60a5fa',
-                '500': '#3b82f6',
-                '600': '#2563eb',
-                '700': '#1d4ed8',
-                '800': '#1e40af',
-                '900': '#1e3a8a',
-              },
-            }
           }
         }
       }
-    </script>
+    }
+  </script>
   <script type="importmap">
 {
   "imports": {
@@ -75,10 +80,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-gray-900 text-gray-100">
-    <div id="root"></div>
+
+<body class="bg-gray-900 text-gray-100">
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
