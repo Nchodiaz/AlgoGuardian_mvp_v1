@@ -151,6 +151,13 @@ export const verifyEmail = async (req: Request, res: Response) => {
             } as any
         });
 
+        // Sync to MailerLite (Fire and Forget) - Only after verification
+        syncToMailerLite({
+            email: user.email,
+            plan: (user as any).plan,
+            isPotentialLead: (user as any).isPotentialLead
+        });
+
         res.json({ message: 'Email verified successfully' });
     } catch (error) {
         console.error('Verify email error:', error);
