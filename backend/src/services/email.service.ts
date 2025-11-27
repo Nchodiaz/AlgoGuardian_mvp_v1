@@ -1,4 +1,19 @@
 import { Resend } from 'resend';
+import dns from 'dns';
+import { promisify } from 'util';
+
+const resolveMx = promisify(dns.resolveMx);
+
+export const isValidEmailDomain = async (email: string): Promise<boolean> => {
+    const domain = email.split('@')[1];
+    if (!domain) return false;
+    try {
+        const addresses = await resolveMx(domain);
+        return addresses && addresses.length > 0;
+    } catch (error) {
+        return false;
+    }
+};
 
 const resend = process.env.RESEND_API_KEY
     ? new Resend(process.env.RESEND_API_KEY)

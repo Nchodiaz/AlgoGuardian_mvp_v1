@@ -6,7 +6,7 @@ import prisma from '../prisma';
 import { syncToMailerLite } from '../services/mailerlite.service';
 
 import crypto from 'crypto';
-import { sendVerificationEmail } from '../services/email.service';
+import { sendVerificationEmail, isValidEmailDomain } from '../services/email.service';
 
 export const register = async (req: Request, res: Response) => {
     try {
@@ -16,6 +16,12 @@ export const register = async (req: Request, res: Response) => {
 
         if (!email || !password) {
             return res.status(400).json({ error: 'Email and password are required' });
+        }
+
+        // Validate email domain (MX records)
+        const isDomainValid = await isValidEmailDomain(email);
+        if (!isDomainValid) {
+            return res.status(400).json({ error: 'Invalid email domain. Please use a valid email address.' });
         }
 
         // Check if user already exists
