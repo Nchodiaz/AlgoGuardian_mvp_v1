@@ -199,7 +199,7 @@ export const StrategyDetail: React.FC<StrategyDetailProps> = ({ portfolio, strat
         <h3 className="text-lg font-semibold text-white mb-4">PNL Curve: Backtest vs. Real-Time</h3>
         <div style={{ width: '100%', height: 250 }}>
           <ResponsiveContainer>
-            <AreaChart data={pnlCurveData} margin={{ top: 5, right: 20, left: 20, bottom: 20 }}>
+            <AreaChart data={pnlCurveData} margin={{ top: 5, right: 20, left: 20, bottom: 30 }}>
               <defs>
                 <linearGradient id="colorBT" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#60A5FA" stopOpacity={0.4} />
@@ -228,7 +228,7 @@ export const StrategyDetail: React.FC<StrategyDetailProps> = ({ portfolio, strat
                 labelFormatter={(label: any) => new Date(label).toLocaleDateString()}
                 labelStyle={{ color: '#D1D5DB' }}
               />
-              <Legend wrapperStyle={{ fontSize: "14px" }} />
+              <Legend wrapperStyle={{ fontSize: "14px", paddingTop: "20px" }} />
               <Area type="monotone" dataKey="Backtest" stroke="#60A5FA" strokeWidth={2} fillOpacity={1} fill="url(#colorBT)" />
               <Area type="monotone" dataKey="Real Time" stroke="#FBBF24" strokeWidth={2} fillOpacity={1} fill="url(#colorRT)" />
             </AreaChart>
