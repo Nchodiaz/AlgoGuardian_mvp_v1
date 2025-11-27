@@ -25,9 +25,9 @@ export const LandingHeader: React.FC<LandingHeaderProps> = ({ onAuthClick }) => 
   return (
     <header className="sticky top-0 left-0 right-0 z-30 py-4 px-4 sm:px-6 lg:px-8 bg-gray-900/80 backdrop-blur-sm border-b border-white/10">
       <div className="container mx-auto flex justify-between items-center">
-        <a href="#" onClick={handleGoToTop} className="flex items-center space-x-2">
-          <img src="/logo.svg" alt="AlgoGuardian" className="h-11 w-11" />
-          <span className="text-xl font-bold text-white">AlgoGuardian</span>
+        <a href="#" onClick={handleGoToTop} className="flex items-center gap-1.5">
+          <img src="/logo.svg" alt="AlgoGuardian" className="h-10 w-10" />
+          <span className="text-xl font-bold text-white leading-none pt-0.5">AlgoGuardian</span>
         </a>
         <nav className="hidden md:flex items-center space-x-8">
           <a href="#features" onClick={(e) => handleScroll(e, 'features')} className="text-sm font-medium text-gray-300 hover:text-white transition-colors">Features</a>
