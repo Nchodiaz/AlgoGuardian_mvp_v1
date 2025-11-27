@@ -394,7 +394,7 @@ const CorrelationHeatmap: React.FC<{ strategies: Strategy[] }> = ({ strategies }
 };
 
 
-const MonthlyAnalyticsChart: React.FC<{ portfolio: Portfolio; strategies: Strategy[] }> = ({ portfolio, strategies }) => {
+const MonthlyAnalyticsChart: React.FC<{ strategies: Strategy[] }> = ({ strategies }) => {
     const monthlyData = useMemo(() => {
         // Sanitize strategies to ensure pnlCurve is an array
         const sanitizedStrategies = strategies.map(s => {
@@ -424,24 +424,17 @@ const MonthlyAnalyticsChart: React.FC<{ portfolio: Portfolio; strategies: Strate
         // Get all unique dates
         const uniqueDates = [...new Set(allRtPoints.map(p => p.date.toISOString().split('T')[0]))].sort();
 
-        // Initialize with portfolio initial balance
-        const initialPortfolioEquity = portfolio.initialBalance || sanitizedStrategies.reduce((acc, s) => {
+        // Initialize with last backtest equity
+        const initialPortfolioEquity = sanitizedStrategies.reduce((acc, s) => {
             const lastBtPoint = s.pnlCurve.slice().reverse().find((p: any) => p.Backtest !== undefined);
             const equity = lastBtPoint?.Backtest ?? 10000;
+            lastEquityPerStrategy[s.id] = equity;
             return acc + equity;
         }, 0);
 
-        // Track initial equity for each strategy to calculate deltas
-        const strategyInitialEquities: { [id: string]: number } = {};
-        sanitizedStrategies.forEach(s => {
-            const lastBtPoint = s.pnlCurve.slice().reverse().find((p: any) => p.Backtest !== undefined);
-            strategyInitialEquities[s.id] = lastBtPoint?.Backtest ?? 10000;
-        });
-
         uniqueDates.forEach(dateStr => {
             const date = new Date(dateStr);
-            let totalPnL = 0;
-
+            let totalEquity = 0;
             sanitizedStrategies.forEach(s => {
                 const lastPointOnDate = s.pnlCurve
                     .filter((p: any) => p['Real Time'] !== undefined && new Date(p.date).toISOString().split('T')[0] <= dateStr)
@@ -451,14 +444,9 @@ const MonthlyAnalyticsChart: React.FC<{ portfolio: Portfolio; strategies: Strate
                 if (lastPointOnDate) {
                     lastEquityPerStrategy[s.id] = lastPointOnDate['Real Time']!;
                 }
-
-                // Calculate PnL contribution: Current Equity - Initial Equity
-                const initial = strategyInitialEquities[s.id] || 10000;
-                const current = lastEquityPerStrategy[s.id] || initial;
-                totalPnL += (current - initial);
+                totalEquity += lastEquityPerStrategy[s.id]
             });
-
-            dailyPortfolioEquity.push({ date, equity: initialPortfolioEquity + totalPnL });
+            dailyPortfolioEquity.push({ date, equity: totalEquity });
         });
 
 
@@ -487,7 +475,7 @@ const MonthlyAnalyticsChart: React.FC<{ portfolio: Portfolio; strategies: Strate
 
             return { name: monthName, gain: parseFloat(gain.toFixed(2)) };
         });
-    }, [strategies, portfolio.initialBalance]);
+    }, [strategies]);
 
     const CustomBarLabel = (props: any) => {
         const { x, y, width, value } = props;
@@ -579,7 +567,7 @@ const PortfolioMetricCard: React.FC<{ title: string; realtimeValue: number; back
     );
 };
 
-const PortfolioOverview: React.FC<{ portfolio: Portfolio; strategies: Strategy[] }> = ({ portfolio, strategies }) => {
+const PortfolioOverview: React.FC<{ strategies: Strategy[] }> = ({ strategies }) => {
     const [showIndividualCurves, setShowIndividualCurves] = useState(false);
 
     if (strategies.length === 0) {
@@ -891,18 +879,7 @@ const PortfolioOverview: React.FC<{ portfolio: Portfolio; strategies: Strategy[]
             const totalProfitCurve: { date: string; profit: number }[] = [];
 
             const rtInitialEquityMap: Record<string, number> = {};
-            // Use portfolio initial balance if available, otherwise sum strategy initials
-            const totalInitialEquity = portfolio.initialBalance || strategies.reduce((acc, s) => {
-                let pnlCurve = s.pnlCurve;
-                if (typeof pnlCurve === 'string') {
-                    try { pnlCurve = JSON.parse(pnlCurve); } catch (e) { pnlCurve = []; }
-                }
-                if (!Array.isArray(pnlCurve)) pnlCurve = [];
-                const lastBtPoint = pnlCurve.filter((p: any) => p.Backtest !== undefined).slice(-1)[0];
-                return acc + (lastBtPoint?.Backtest ?? 10000);
-            }, 0);
-
-            // Populate rtInitialEquityMap for delta calculation
+            let totalInitialEquity = 0;
             strategies.forEach(s => {
                 let pnlCurve = s.pnlCurve;
                 if (typeof pnlCurve === 'string') {
@@ -910,7 +887,9 @@ const PortfolioOverview: React.FC<{ portfolio: Portfolio; strategies: Strategy[]
                 }
                 if (!Array.isArray(pnlCurve)) pnlCurve = [];
                 const lastBtPoint = pnlCurve.filter((p: any) => p.Backtest !== undefined).slice(-1)[0];
-                rtInitialEquityMap[s.id] = lastBtPoint?.Backtest ?? 10000;
+                const initialEq = lastBtPoint?.Backtest ?? 10000;
+                rtInitialEquityMap[s.id] = initialEq;
+                totalInitialEquity += initialEq;
             });
 
             const lastKnownEquity: Record<string, number> = { ...rtInitialEquityMap };
@@ -922,8 +901,7 @@ const PortfolioOverview: React.FC<{ portfolio: Portfolio; strategies: Strategy[]
                     if (lastPoint) {
                         lastKnownEquity[s.id] = lastPoint.value;
                     }
-                    // Calculate delta from initial
-                    portfolioPnl += (lastKnownEquity[s.id] - rtInitialEquityMap[s.id]);
+                    portfolioPnl += (lastKnownEquity[s.id] - (rtInitialEquityMap[s.id] || lastKnownEquity[s.id]));
                 });
 
                 const portfolioEquity = totalInitialEquity + portfolioPnl;
@@ -935,7 +913,7 @@ const PortfolioOverview: React.FC<{ portfolio: Portfolio; strategies: Strategy[]
             }
             return { equityCurveData: totalProfitCurve, strategyCurves };
         }
-    }, [strategies, showIndividualCurves, portfolio.initialBalance]);
+    }, [strategies, showIndividualCurves]);
 
 
     const typologyChartData = Object.entries(aggregateData('typology')).map(([name, value]) => ({ name, value }));
@@ -1035,7 +1013,7 @@ const PortfolioOverview: React.FC<{ portfolio: Portfolio; strategies: Strategy[]
                 </div>
             </div>
 
-            <MonthlyAnalyticsChart portfolio={portfolio} strategies={strategies} />
+            <MonthlyAnalyticsChart strategies={strategies} />
 
             <CorrelationHeatmap strategies={strategies} />
 
@@ -1158,7 +1136,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
     const renderView = () => {
         switch (activeView) {
             case 'overview':
-                return <PortfolioOverview portfolio={portfolio} strategies={strategiesWithStatus} />;
+                return <PortfolioOverview strategies={strategiesWithStatus} />;
             case 'strategies':
                 return (
                     <div className="bg-gray-800/50 rounded-lg shadow-lg ring-1 ring-white/10">
