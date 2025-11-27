@@ -8,6 +8,71 @@ import { syncToMailerLite } from '../services/mailerlite.service';
 import crypto from 'crypto';
 import { sendVerificationEmail, isValidEmailDomain } from '../services/email.service';
 
+const generateExampleCurve = (startEquity: number, endBtEquity: number, endRtEquity: number, type: 'trend' | 'mean_reversion' | 'breakout') => {
+    const points: any[] = [];
+    const btStartDate = new Date('2024-06-01').getTime();
+    const btEndDate = new Date('2025-03-01').getTime();
+    const rtStartDate = new Date('2025-03-02').getTime();
+    const rtEndDate = new Date('2025-11-15').getTime();
+
+    const btPoints = 25;
+    const rtPoints = 25;
+
+    // Backtest Generation
+    let currentEquity = startEquity;
+    const btTotalProfit = endBtEquity - startEquity;
+
+    for (let i = 0; i <= btPoints; i++) {
+        const progress = i / btPoints;
+        const date = new Date(btStartDate + (btEndDate - btStartDate) * progress).toISOString();
+
+        let noise = (Math.random() - 0.5) * (btTotalProfit * 0.1);
+        if (i === 0) noise = 0;
+        if (i === btPoints) noise = 0;
+
+        let value = startEquity + (btTotalProfit * progress) + noise;
+
+        // Add specific characteristics
+        if (type === 'breakout' && i > btPoints * 0.7) {
+            value += (btTotalProfit * 0.2 * (i - btPoints * 0.7) / (btPoints * 0.3)); // Acceleration at end
+        }
+
+        points.push({ date, Backtest: Number(value.toFixed(2)) });
+        currentEquity = value;
+    }
+
+    // Realtime Generation
+    const rtTotalChange = endRtEquity - endBtEquity;
+
+    for (let i = 0; i <= rtPoints; i++) {
+        const progress = i / rtPoints;
+        const date = new Date(rtStartDate + (rtEndDate - rtStartDate) * progress).toISOString();
+
+        let noise = (Math.random() - 0.5) * (Math.abs(rtTotalChange) * 0.2 + 500);
+        if (i === 0) noise = 0;
+        if (i === rtPoints) noise = 0;
+
+        let value = endBtEquity + (rtTotalChange * progress) + noise;
+
+        // Add specific characteristics
+        if (type === 'mean_reversion') {
+            // Choppy then drop
+            value += Math.sin(i) * 500;
+        }
+        if (type === 'breakout') {
+            // Sharp drop
+            if (i > 5) value -= (i * 100);
+        }
+
+        // Force end value match
+        if (i === rtPoints) value = endRtEquity;
+
+        points.push({ date, 'Real Time': Number(value.toFixed(2)) });
+    }
+
+    return points;
+};
+
 export const register = async (req: Request, res: Response) => {
     try {
         // Force plan to be 'free' for new registrations
@@ -203,22 +268,13 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'net_profit', name: 'Net Profit', unit: '$', backtestValue: 12000, realtimeValue: 15000, backtestValueAlt: '25.0', realtimeValueAlt: '30.0' },
                                     { id: 'num_trades', name: 'Nº Trades', unit: '', backtestValue: 150, realtimeValue: 45 },
                                     { id: 'profit_factor', name: 'Profit Factor', unit: '', backtestValue: 1.6, realtimeValue: 1.8 },
-                                    { id: 'ret_dd_ratio', name: 'Ret/DD', unit: '', backtestValue: 6.67, realtimeValue: 8.33 }, // 12000/1800, 15000/1800
-                                    { id: 'avg_trade', name: 'Avg. Trade', unit: '$', backtestValue: 80, realtimeValue: 333 }, // 12000/150, 15000/45
+                                    { id: 'ret_dd_ratio', name: 'Ret/DD', unit: '', backtestValue: 6.67, realtimeValue: 8.33 },
+                                    { id: 'avg_trade', name: 'Avg. Trade', unit: '$', backtestValue: 80, realtimeValue: 333 },
                                     { id: 'max_drawdown', name: 'Max DD', unit: '$', backtestValue: 1800, realtimeValue: 1800, backtestValueAlt: '15.0', realtimeValueAlt: '12.0' },
                                     { id: 'win_rate', name: 'Winrate', unit: '%', backtestValue: 50, realtimeValue: 55 },
                                     { id: 'stagnation_days', name: 'Stagnation', unit: 'days', backtestValue: 45, realtimeValue: 15 }
                                 ]),
-                                pnlCurve: JSON.stringify([
-                                    { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
-                                    { date: '2024-09-01T00:00:00.000Z', Backtest: 11000 },
-                                    { date: '2024-12-01T00:00:00.000Z', Backtest: 12000 },
-                                    { date: '2025-03-01T00:00:00.000Z', Backtest: 13000 },
-                                    { date: '2025-03-02T00:00:00.000Z', 'Real Time': 13000 },
-                                    { date: '2025-06-01T00:00:00.000Z', 'Real Time': 14000 },
-                                    { date: '2025-09-01T00:00:00.000Z', 'Real Time': 14500 },
-                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 15000 }
-                                ])
+                                pnlCurve: JSON.stringify(generateExampleCurve(10000, 22000, 25000, 'trend'))
                             },
                             {
                                 magicNumber: 1002,
@@ -238,14 +294,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'win_rate', name: 'Winrate', unit: '%', backtestValue: 60, realtimeValue: 58 },
                                     { id: 'stagnation_days', name: 'Stagnation', unit: 'days', backtestValue: 30, realtimeValue: 45 }
                                 ]),
-                                pnlCurve: JSON.stringify([
-                                    { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
-                                    { date: '2024-10-01T00:00:00.000Z', Backtest: 10200 },
-                                    { date: '2025-03-01T00:00:00.000Z', Backtest: 10500 },
-                                    { date: '2025-03-02T00:00:00.000Z', 'Real Time': 10500 },
-                                    { date: '2025-07-01T00:00:00.000Z', 'Real Time': 10200 },
-                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 10000 }
-                                ])
+                                pnlCurve: JSON.stringify(generateExampleCurve(10000, 18000, 17500, 'mean_reversion'))
                             },
                             {
                                 magicNumber: 1003,
@@ -265,15 +314,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'win_rate', name: 'Winrate', unit: '%', backtestValue: 45, realtimeValue: 40 },
                                     { id: 'stagnation_days', name: 'Stagnation', unit: 'days', backtestValue: 60, realtimeValue: 90 }
                                 ]),
-                                pnlCurve: JSON.stringify([
-                                    { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
-                                    { date: '2024-09-01T00:00:00.000Z', Backtest: 12000 },
-                                    { date: '2025-01-01T00:00:00.000Z', Backtest: 15000 },
-                                    { date: '2025-03-01T00:00:00.000Z', Backtest: 16000 },
-                                    { date: '2025-03-02T00:00:00.000Z', 'Real Time': 16000 },
-                                    { date: '2025-08-01T00:00:00.000Z', 'Real Time': 15500 },
-                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 15000 }
-                                ])
+                                pnlCurve: JSON.stringify(generateExampleCurve(10000, 30000, 28000, 'breakout'))
                             }
                         ]
                     }
