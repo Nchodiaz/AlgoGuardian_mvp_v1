@@ -39,7 +39,9 @@ export const createPortfolio = async (req: AuthRequest, res: Response) => {
         const plan = ((user as any).plan as PlanType) || 'free';
         const limits = PLAN_LIMITS[plan];
 
-        if (user.portfolios.length >= limits.portfolios) {
+        const userPortfolios = user.portfolios.filter((p: any) => !p.isExample);
+
+        if (userPortfolios.length >= limits.portfolios) {
             return res.status(403).json({
                 error: `Plan limit reached. You can only create ${limits.portfolios} portfolios on the ${plan} plan.`
             });

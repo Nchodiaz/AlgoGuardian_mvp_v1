@@ -166,6 +166,74 @@ export const verifyEmail = async (req: Request, res: Response) => {
             } as any
         });
 
+        // Create Example Portfolio
+        try {
+            const examplePortfolio = await prisma.portfolio.create({
+                data: {
+                    name: 'Example Portfolio 🚀',
+                    ownerId: user.id,
+                    isExample: true,
+                    metricRules: [],
+                    strategies: {
+                        create: [
+                            {
+                                magicNumber: 1001,
+                                name: 'Trend Follower EURUSD',
+                                symbol: 'EURUSD',
+                                timeframe: 'H1',
+                                typology: 'Trend',
+                                extractionType: 'In Sample',
+                                status: 'ok',
+                                metrics: JSON.stringify([
+                                    { id: 'net_profit', value: 15000 },
+                                    { id: 'profit_factor', value: 1.8 },
+                                    { id: 'win_rate', value: 55 },
+                                    { id: 'max_drawdown', value: 12 }
+                                ]),
+                                pnlCurve: JSON.stringify([])
+                            },
+                            {
+                                magicNumber: 1002,
+                                name: 'Mean Reversion GBPUSD',
+                                symbol: 'GBPUSD',
+                                timeframe: 'M15',
+                                typology: 'Mean Reversion',
+                                extractionType: 'Out of Sample',
+                                status: 'ok',
+                                metrics: JSON.stringify([
+                                    { id: 'net_profit', value: 8500 },
+                                    { id: 'profit_factor', value: 1.5 },
+                                    { id: 'win_rate', value: 62 },
+                                    { id: 'max_drawdown', value: 8 }
+                                ]),
+                                pnlCurve: JSON.stringify([])
+                            },
+                            {
+                                magicNumber: 1003,
+                                name: 'Breakout GOLD',
+                                symbol: 'XAUUSD',
+                                timeframe: 'H4',
+                                typology: 'Breakout',
+                                extractionType: 'Live',
+                                status: 'ok',
+                                metrics: JSON.stringify([
+                                    { id: 'net_profit', value: 22000 },
+                                    { id: 'profit_factor', value: 2.1 },
+                                    { id: 'win_rate', value: 48 },
+                                    { id: 'max_drawdown', value: 15 }
+                                ]),
+                                pnlCurve: JSON.stringify([])
+                            }
+                        ]
+                    }
+                }
+            });
+            console.log(`Example portfolio created for user ${user.id}`);
+        } catch (error) {
+            console.error('Failed to create example portfolio:', error);
+            // Continue execution, don't fail verification
+        }
+
         // Sync to MailerLite (Fire and Forget) - Only after verification
         syncToMailerLite({
             email: user.email,
