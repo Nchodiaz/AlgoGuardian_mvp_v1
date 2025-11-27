@@ -173,7 +173,22 @@ export const verifyEmail = async (req: Request, res: Response) => {
                     name: 'Example Portfolio 🚀',
                     ownerId: user.id,
                     isExample: true,
-                    metricRules: [],
+                    metricRules: [
+                        {
+                            metricId: 'max_drawdown',
+                            name: 'Max Drawdown Deviation',
+                            alertThreshold: 15,
+                            deactivationThreshold: 20,
+                            isAlerting: true
+                        },
+                        {
+                            metricId: 'profit_factor',
+                            name: 'Profit Factor Deviation',
+                            alertThreshold: 10,
+                            deactivationThreshold: 15,
+                            isAlerting: true
+                        }
+                    ],
                     strategies: {
                         create: [
                             {
@@ -192,11 +207,14 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'num_trades', backtestValue: 150, realtimeValue: 45 }
                                 ]),
                                 pnlCurve: JSON.stringify([
-                                    { date: new Date(Date.now() - 86400000 * 30).toISOString(), Backtest: 10000 },
-                                    { date: new Date(Date.now() - 86400000 * 20).toISOString(), Backtest: 11000 },
-                                    { date: new Date(Date.now() - 86400000 * 10).toISOString(), Backtest: 12000 },
-                                    { date: new Date(Date.now() - 86400000 * 5).toISOString(), 'Real Time': 12500 },
-                                    { date: new Date().toISOString(), 'Real Time': 15000 }
+                                    { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
+                                    { date: '2024-09-01T00:00:00.000Z', Backtest: 11000 },
+                                    { date: '2024-12-01T00:00:00.000Z', Backtest: 12000 },
+                                    { date: '2025-03-01T00:00:00.000Z', Backtest: 13000 },
+                                    { date: '2025-03-02T00:00:00.000Z', 'Real Time': 13000 },
+                                    { date: '2025-06-01T00:00:00.000Z', 'Real Time': 14000 },
+                                    { date: '2025-09-01T00:00:00.000Z', 'Real Time': 14500 },
+                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 15000 }
                                 ])
                             },
                             {
@@ -215,10 +233,12 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'num_trades', backtestValue: 200, realtimeValue: 60 }
                                 ]),
                                 pnlCurve: JSON.stringify([
-                                    { date: new Date(Date.now() - 86400000 * 30).toISOString(), Backtest: 10000 },
-                                    { date: new Date(Date.now() - 86400000 * 15).toISOString(), Backtest: 10500 },
-                                    { date: new Date(Date.now() - 86400000 * 5).toISOString(), 'Real Time': 10800 },
-                                    { date: new Date().toISOString(), 'Real Time': 11500 }
+                                    { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
+                                    { date: '2024-10-01T00:00:00.000Z', Backtest: 10200 },
+                                    { date: '2025-03-01T00:00:00.000Z', Backtest: 10500 },
+                                    { date: '2025-03-02T00:00:00.000Z', 'Real Time': 10500 },
+                                    { date: '2025-07-01T00:00:00.000Z', 'Real Time': 11000 },
+                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 11500 }
                                 ])
                             },
                             {
@@ -237,11 +257,13 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                     { id: 'num_trades', backtestValue: 100, realtimeValue: 30 }
                                 ]),
                                 pnlCurve: JSON.stringify([
-                                    { date: new Date(Date.now() - 86400000 * 30).toISOString(), Backtest: 10000 },
-                                    { date: new Date(Date.now() - 86400000 * 25).toISOString(), Backtest: 12000 },
-                                    { date: new Date(Date.now() - 86400000 * 10).toISOString(), Backtest: 15000 },
-                                    { date: new Date(Date.now() - 86400000 * 2).toISOString(), 'Real Time': 16000 },
-                                    { date: new Date().toISOString(), 'Real Time': 18000 }
+                                    { date: '2024-06-01T00:00:00.000Z', Backtest: 10000 },
+                                    { date: '2024-09-01T00:00:00.000Z', Backtest: 12000 },
+                                    { date: '2025-01-01T00:00:00.000Z', Backtest: 15000 },
+                                    { date: '2025-03-01T00:00:00.000Z', Backtest: 16000 },
+                                    { date: '2025-03-02T00:00:00.000Z', 'Real Time': 16000 },
+                                    { date: '2025-08-01T00:00:00.000Z', 'Real Time': 17500 },
+                                    { date: '2025-11-15T00:00:00.000Z', 'Real Time': 18000 }
                                 ])
                             }
                         ]

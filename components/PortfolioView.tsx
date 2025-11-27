@@ -504,6 +504,7 @@ const MonthlyAnalyticsChart: React.FC<{ strategies: Strategy[] }> = ({ strategie
                         <Tooltip
                             cursor={{ fill: 'rgba(107, 114, 128, 0.1)' }}
                             contentStyle={{ backgroundColor: '#1F2937', border: '1px solid #374151' }}
+                            itemStyle={{ color: '#F3F4F6' }}
                             formatter={(value: number) => [`${value.toFixed(2)}%`, 'Gain']}
                             labelStyle={{ color: '#D1D5DB' }}
                         />
