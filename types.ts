@@ -64,7 +64,6 @@ export interface Portfolio {
   ownerId: string;
   deactivationRules?: DeactivationRule[];
   metricRules?: MetricRule[];
-  initialBalance?: number;
   // FIX: Add missing property to fix type error in PortfolioSettingsModal.
   defaultDriftScoreThreshold?: number;
 }
