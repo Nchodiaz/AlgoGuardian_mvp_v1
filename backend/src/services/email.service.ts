@@ -15,7 +15,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
     try {
         const data = await resend.emails.send({
-            from: 'AlgoGuardian <onboarding@resend.dev>', // Use resend.dev for testing if no domain
+            from: process.env.EMAIL_FROM || 'AlgoGuardian <onboarding@resend.dev>',
             to: [email],
             subject: 'Verify your AlgoGuardian account',
             html: `
