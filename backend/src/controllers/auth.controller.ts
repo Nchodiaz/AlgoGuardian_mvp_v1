@@ -182,7 +182,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 symbol: 'EURUSD',
                                 timeframe: 'H1',
                                 typology: 'Trend',
-                                extractionType: 'In Sample',
+                                extractionType: 'Idea Driven',
                                 status: 'ok',
                                 metrics: JSON.stringify([
                                     { id: 'net_profit', backtestValue: 12000, realtimeValue: 15000 },
@@ -205,7 +205,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 symbol: 'GBPUSD',
                                 timeframe: 'M15',
                                 typology: 'Mean Reversion',
-                                extractionType: 'Out of Sample',
+                                extractionType: 'Data Driven',
                                 status: 'ok',
                                 metrics: JSON.stringify([
                                     { id: 'net_profit', backtestValue: 8000, realtimeValue: 8500 },
@@ -227,7 +227,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
                                 symbol: 'XAUUSD',
                                 timeframe: 'H4',
                                 typology: 'Breakout',
-                                extractionType: 'Live',
+                                extractionType: 'Data Driven',
                                 status: 'ok',
                                 metrics: JSON.stringify([
                                     { id: 'net_profit', backtestValue: 20000, realtimeValue: 22000 },
