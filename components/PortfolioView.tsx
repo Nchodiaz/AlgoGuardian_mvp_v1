@@ -1139,7 +1139,7 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                 return <PortfolioOverview strategies={strategiesWithStatus} />;
             case 'strategies':
                 return (
-                    <div className="bg-gray-800/50 rounded-lg shadow-lg overflow-hidden ring-1 ring-white/10">
+                    <div className="bg-gray-800/50 rounded-lg shadow-lg ring-1 ring-white/10">
                         <div className="p-6">
                             <h3 className="text-lg font-semibold text-white">Strategies Overview</h3>
                         </div>
@@ -1148,65 +1148,65 @@ export const PortfolioView: React.FC<PortfolioViewProps> = ({ portfolio, strateg
                                 <thead className="bg-gray-800">
                                     <tr>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Unique identifier for the strategy.">
                                                 Magic Number
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Unique identifier for the strategy.
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Strategy name.">
                                                 Name
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Strategy name.
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Trading pair or asset.">
                                                 Symbol
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Trading pair or asset.
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Chart timeframe used.">
                                                 Timeframe
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Chart timeframe used.
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Strategy type (e.g., Trend, Mean Reversion).">
                                                 Typology
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Strategy type (e.g., Trend, Mean Reversion).
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Data source type (In Sample, Out of Sample, Live).">
                                                 Extraction Type
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Data source type (In Sample, Out of Sample, Live).
                                             </div>
                                         </th>
                                         <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider group relative">
-                                            <div className="flex items-center gap-1 cursor-help">
+                                            <div className="flex items-center gap-1 cursor-help" title="Current monitoring status based on metric rules.">
                                                 Status
                                                 <InformationCircleIcon className="h-4 w-4 text-gray-500" />
                                             </div>
-                                            <div className="absolute bottom-full left-0 mb-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                                            <div className="absolute top-full left-0 mt-2 w-48 p-2 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 border border-gray-700">
                                                 Current monitoring status based on metric rules.
                                             </div>
                                         </th>
