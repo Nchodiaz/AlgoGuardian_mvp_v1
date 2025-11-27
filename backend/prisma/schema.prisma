@@ -37,8 +37,8 @@ model Portfolio {
   id          String     @id @default(cuid())
   name        String
   metricRules Json       @default("[]")
-  initialBalance Float   @default(10000)
   isExample   Boolean    @default(false)
+  initialBalance Float   @default(0) // Temporary fix for ghost column error
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   ownerId     String
