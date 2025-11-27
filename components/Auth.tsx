@@ -55,9 +55,9 @@ export const Auth: React.FC<AuthProps> = ({ onAuthSuccess, initialView, selected
     return (
         <div className="w-full">
             <div className="sm:mx-auto sm:w-full sm:max-w-md pt-12">
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center gap-1.5">
                     <img src="/logo.svg" alt="AlgoGuardian" className="h-14 w-14" />
-                    <h1 className="text-3xl font-bold ml-3 text-white">AlgoGuardian</h1>
+                    <h1 className="text-3xl font-bold text-white">AlgoGuardian</h1>
                 </div>
                 <h2 className="mt-6 text-center text-2xl font-bold text-gray-300">
                     {isSignUp ? 'Create your account' : 'Sign in to your account'}
