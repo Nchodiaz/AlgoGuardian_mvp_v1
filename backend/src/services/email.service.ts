@@ -12,7 +12,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     }
 
     const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').trim().replace(/\/$/, '');
-    const verificationUrl = `${frontendUrl}/verify-email?token=${token}`;
+    const verificationUrl = `${frontendUrl}/verify?token=${token}`;
 
     console.log('[DEBUG] Frontend URL:', frontendUrl);
     console.log('[DEBUG] Verification URL:', verificationUrl);

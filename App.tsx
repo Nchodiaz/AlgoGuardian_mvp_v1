@@ -18,7 +18,7 @@ const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!getAuthToken());
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authView, setAuthView] = useState<'login' | 'signup'>('login');
-  const [isVerifyingEmail, setIsVerifyingEmail] = useState(window.location.pathname === '/verify-email');
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(window.location.pathname === '/verify-email' || window.location.pathname === '/verify');
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined);
   const [selectedIsPotentialLead, setSelectedIsPotentialLead] = useState(false);
   const [portfolios, setPortfolios] = useState<Portfolio[]>([]);
